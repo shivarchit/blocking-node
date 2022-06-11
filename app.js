@@ -1,9 +1,9 @@
 const http = require("http");
 const Express = require("express");
-
+let Router = Express.Router();
 const app = new Express();
 
-app.get("/block-me", async (req, res) => {
+Router.get("/block-me", async (req, res) => {
     try {
 
         await blockForTwoMinutes();
@@ -17,7 +17,7 @@ app.get("/block-me", async (req, res) => {
         });
     }
 });
-app.get("/block-me-2", async (req, res) => {
+Router.get("/block-me-2", async (req, res) => {
     try {
 
         await asyncAvg(9e10, function (avg) {
@@ -35,7 +35,7 @@ app.get("/block-me-2", async (req, res) => {
         });
     }
 });
-app.get("/browser", async (req, res) => {
+Router.get("/browser", async (req, res) => {
     try {
         res.status(200).json({
             isActionSuccess: true
@@ -47,7 +47,7 @@ app.get("/browser", async (req, res) => {
         });
     }
 });
-
+app.use("/api", Router);
 function asyncAvg(n, avgCB) {
     try {
         // Save ongoing sum in JS closure.
